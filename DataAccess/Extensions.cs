@@ -1,0 +1,25 @@
+﻿using DataAccess.Repositories.Abstract;
+using DataAccess.Repositories.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DataAccess
+{
+    public static class Extensions
+    {
+        // Метод расширения, для добавления контекста базы данных и репозиториев к сервисам приложения
+        public static IServiceCollection AddEFDataAccess(this IServiceCollection serviceCollection, string connectionString)
+        {
+            serviceCollection.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
+
+            serviceCollection.AddScoped<IGameRepository, EFGameRepository>();
+
+            return serviceCollection;
+        }
+    }
+}
