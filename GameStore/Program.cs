@@ -1,4 +1,6 @@
 using DataAccess;
+using GamesStore.Endpoints;
+using GamesStore.Services;
 
 namespace GameStore
 {
@@ -11,13 +13,17 @@ namespace GameStore
             string connectionString = builder.Configuration.GetConnectionString("DefaultConnection")!;
             builder.Services.AddEFDataAccess(connectionString);
 
+            builder.Services.AddTransient<RequestHandlerService>();
 
             var app = builder.Build();
 
             app.UseStaticFiles();
 
-            app.Run();
+            app.MapGet("/", (RequestHandlerService requestHandler) => requestHandler.ShowHtml("Index.html"));
+            app.MapApiGameEndpoints();
+            app.MapGameEndpoints();
 
+            app.Run();
         }
     }
 }

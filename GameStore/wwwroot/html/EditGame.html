@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование игры</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header>
+        <h1>Games Store</h1>
+    </header>
+    <nav>
+        <button onclick="location.href='/'">Главная страница</button>
+        <button onclick="location.href='/games'">Все игры</button>
+        <button onclick="location.href='/game/create'">Новая игра</button>
+    </nav>
+
+    <div class="main-content">
+        <h1>Редактирование игры</h1>
+        <div class="edit-game-form">
+            <form id="formEditGame" method="post" enctype="multipart/form-data" onsubmit="updateGame(event)">
+                <input type="hidden" id="gameId" name="gameId" required />
+
+                <label for="gameName">Название игры:</label>
+                <input type="text" id="gameName" name="gameName" required />
+
+                <label for="gameDescription">Описание:</label>
+                <textarea id="gameDescription" name="gameDescription"></textarea>
+
+                <label for="gameGenre">Жанр:</label>
+                <input type="text" id="gameGenre" name="gameGenre" />
+
+                <label for="gameAuthor">Автор:</label>
+                <input type="text" id="gameAuthor" name="gameAuthor" />
+
+                <label for="gameImagePath">Выберите изображение:</label>
+                <input type="file" id="gameImage" name="gameImage" accept="image/*" onchange="previewImage(event)" />
+                <img id="imagePreview" src="" alt="Предпросмотр изображения" style="max-width: 300px; margin-top: 10px;" />
+
+                <button type="submit">Сохранить изменения</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Все права защищены.</p>
+    </footer>
+
+    <script>
+        const currentUrl = window.location.href;
+        const segments = currentUrl.split("/");
+        const id = segments[segments.length - 1];
+
+        async function fetchGame() {
+            const response = await fetch('/api/game/' + id);
+            const game = await response.json();
+
+            document.getElementById('gameId').value = game.id;
+            document.getElementById('gameName').value = game.name;
+            document.getElementById('gameDescription').textContent = game.description;
+            document.getElementById('gameGenre').value = game.genre;
+            document.getElementById('gameAuthor').value = game.author;
+            document.getElementById('imagePreview').src = game.imagePath;
+        }
+
+        async function updateGame(event) {
+            event.preventDefault();
+
+            const formData = new FormData(document.getElementById('formEditGame'));
+
+            const response = await fetch('/api/game/edit/' + id, {
+                method: 'PUT',
+                body: formData
+            });
+            if (response.ok) {
+                window.location.href = '/game/' + id;
+            } else {
+                const errorMessage = await response.text();
+                alert(`Ошибка при обновлении игры: ${errorMessage}`);
+            }
+        }
+
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                document.getElementById('imagePreview').src = e.target.result;
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imagePreview').src = '';
+            }
+        }
+
+        fetchGame();
+    </script>
+</body>
+</html>

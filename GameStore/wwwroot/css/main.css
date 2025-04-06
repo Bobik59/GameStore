@@ -1,0 +1,134 @@
+﻿
+html, body {
+    font-family: Arial, sans-serif;
+    height: 100%;
+    margin: 0;
+}
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+nav {
+    border: 2px solid #ccc;
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0px;
+    padding: 10px;
+}
+
+nav button {
+    margin-right: 30px;
+    padding: 15px 20px;
+    font-size: 18px;
+}
+
+footer {
+    margin-top: auto;
+    text-align: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.main-content {
+    padding: 20px;
+}
+
+.game-info, .edit-game-form, .game-list {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+
+img {
+    max-width: 300px;
+    height: auto;
+}
+
+.edit-game-form label {
+    display: block;
+    margin-top: 10px;
+}
+.edit-game-form button {
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 15px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.edit-game-form input, .edit-game-form textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 5px;
+}
+.edit-game-form textarea {
+    height: 100px;
+    resize: none;
+}
+.game-actions {
+    margin-top: 20px;
+}
+
+    .game-actions button {
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-right: 15px;
+        border: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+.game-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    width: calc(50% - 20px);
+    height: 300px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    color: inherit;
+}
+
+    .game-card img {
+        max-width: 40%;
+        height: auto;
+        object-fit: cover;
+    }
+
+.game-card-info {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.games-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.filter-container {
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+    .filter-container label {
+        font-weight: bold;
+        margin-right: 5px;
+    }

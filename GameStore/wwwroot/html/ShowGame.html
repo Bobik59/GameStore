@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Информация об игре</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <header>
+        <h1>Games Store</h1>
+    </header>
+    <nav>
+        <button onclick="location.href='/'">Главная страница</button>
+        <button onclick="location.href='/games'">Все игры</button>
+        <button onclick="location.href='/game/create'">Новая игра</button>
+    </nav>
+
+    <div class="main-content">
+        <h1>Информация об игре</h1>
+        <div class="game-info">
+            <h2 id="gameName"></h2>
+            <img id="gameImage" alt="Изображение игры" />
+            <p><strong>Описание:</strong> <span id="gameDescription"></span></p>
+            <p><strong>Жанр:</strong> <span id="gameGenre"></span></p>
+            <p><strong>Автор:</strong> <span id="gameAuthor"></span></p>
+            <div class="game-actions">
+                <button onclick="editGame()">Изменить</button>
+                <button onclick="deleteGame()">Удалить</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Все права защищены.</p>
+    </footer>
+
+    <script>
+        const currentUrl = window.location.href;
+        const segments = currentUrl.split("/");
+        const id = segments[segments.length - 1];
+
+        async function fetchGame() {
+            const response = await fetch('/api/game/' + id);
+            const game = await response.json();
+
+            document.getElementById('gameName').innerText = game.name;
+            document.getElementById('gameImage').src = game.imagePath;
+            document.getElementById('gameDescription').innerText = game.description || "Нет описания.";
+            document.getElementById('gameGenre').innerText = game.genre || "Не указано.";
+            document.getElementById('gameAuthor').innerText = game.author || "Неизвестен.";
+        }
+
+        function editGame() {
+            location.href = `/game/edit/${id}`; // Ссылка на страницу редактирования игры
+        }
+
+        async function deleteGame() {
+            const response = await fetch('/api/game/delete/' + id, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                window.location.href = '/games';
+            } else {
+                const errorMessage = await response.text();
+                alert(`Ошибка при удалении игры: ${errorMessage}`);
+            }
+        }
+        fetchGame()
+    </script>
+
+</body>
+</html>
