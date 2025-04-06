@@ -12,7 +12,6 @@ namespace DataAccess//
 {
     public static class Extensions
     {
-        // Метод расширения, для добавления контекста базы данных и репозиториев к сервисам приложения
         public static IServiceCollection AddEFDataAccess(this IServiceCollection serviceCollection, string connectionString)
         {
             serviceCollection.AddDbContext<AppDbContext>(x => x.UseSqlServer(connectionString));
